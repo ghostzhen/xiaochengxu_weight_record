@@ -1,0 +1,241 @@
+<!--index.wxml-->
+<view class="scrollarea">
+  <view class="chart-page">
+    <view class="card">
+      <view class="card__title">近一周体重变化</view>
+      <view class="chart-wrap" id="chartWrap">
+        <canvas
+          wx:if="{{!showDietInput && !showSleepInput && !showWaterInput && !showSleepSettingInput}}"
+          id="lineChart"
+          type="2d"
+          class="chart"
+          bindtouchstart="onChartTouchStart"
+          bindtouchmove="onChartTouchMove"
+          bindtouchend="onChartTouchEnd"
+        ></canvas>
+        <view wx:else class="chart chart-placeholder"></view>
+      </view>
+      <view class="compare-card">
+        <view class="compare-row">
+          <text class="compare-label">本周</text>
+          <text class="compare-value {{weekThisClass}}">{{ weekThisText }}</text>
+        </view>
+        <view class="compare-row">
+          <text class="compare-label">上周</text>
+          <text class="compare-value {{weekLastClass}}">{{ weekLastText }}</text>
+        </view>
+        <view class="compare-row">
+          <text class="compare-label">本月</text>
+          <text class="compare-value {{monthThisClass}}">{{ monthThisText }}</text>
+        </view>
+        <view class="compare-row">
+          <text class="compare-label">上月</text>
+          <text class="compare-value {{monthLastClass}}">{{ monthLastText }}</text>
+        </view>
+      </view>
+      <view class="habit-card">
+        <view class="habit-title">今日习惯</view>
+        <view class="habit-row">
+          <view class="habit-item" bindtap="onHabit" data-type="diet">
+            <text class="habit-icon">🍽</text>
+            <text>饮食</text>
+          </view>
+          <view class="habit-item" bindtap="onHabit" data-type="water">
+            <text class="habit-icon">💧</text>
+            <text>饮水提醒</text>
+          </view>
+          <view class="habit-item" bindtap="onHabit" data-type="routine">
+            <text class="habit-icon">🌙</text>
+            <text>作息记录</text>
+          </view>
+          <view class="habit-item" bindtap="onHabit" data-type="sleepSetting">
+            <text class="habit-icon">⏰</text>
+            <text>作息设置</text>
+          </view>
+        </view>
+      </view>
+      <view class="water-card">
+        <view class="water-head">
+          <text class="water-title">饮水提醒</text>
+          <text class="water-badge">{{waterBadgeText}}</text>
+        </view>
+        <view class="water-progress-row">
+          <text class="water-progress-text">今日 {{todayWaterMl}}ml / {{waterGoalMl}}ml（{{waterTodayPercent}}%）</text>
+          <text class="water-streak">连续达标 {{waterStreakDays}} 天</text>
+        </view>
+        <view class="water-bar">
+          <view class="water-bar-inner" style="width: {{waterTodayPercent}}%;"></view>
+        </view>
+        <view class="water-quick-row">
+          <button class="water-quick-btn" data-amount="100" bindtap="onQuickAddWater">+100ml</button>
+          <button class="water-quick-btn" data-amount="200" bindtap="onQuickAddWater">+200ml</button>
+          <button class="water-quick-btn" data-amount="500" bindtap="onQuickAddWater">+500ml</button>
+        </view>
+        <view class="water-manual-row">
+          <input class="water-manual-input" type="number" placeholder="手动输入饮水量(ml)" value="{{waterManualInput}}" bindinput="onWaterManualInput" />
+          <button class="water-manual-btn" bindtap="onSaveManualWater">记录</button>
+        </view>
+        <view class="water-stats-row">
+          <text class="water-stat">周均 {{waterWeekAvg}}ml</text>
+          <text class="water-stat">月均 {{waterMonthAvg}}ml</text>
+        </view>
+      </view>
+      <view class="trend-card">
+        <view class="recent-title">饮水趋势</view>
+        <view class="trend-block">
+          <text class="trend-label">近7天</text>
+          <view class="trend-bars">
+            <view wx:for="{{waterWeekHeights}}" wx:key="index" class="trend-bar-item">
+              <view class="trend-bar-fill" style="height: {{item}}rpx;"></view>
+            </view>
+          </view>
+        </view>
+        <view class="trend-block">
+          <text class="trend-label">近30天</text>
+          <view class="trend-bars trend-bars-month">
+            <view wx:for="{{waterMonthHeights}}" wx:key="index" class="trend-bar-item trend-bar-month-item">
+              <view class="trend-bar-fill" style="height: {{item}}rpx;"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="recent-card">
+        <view class="recent-title">最近记录</view>
+        <view class="recent-row">
+          <text class="recent-label">饮食 {{latestDietDate}}</text>
+          <text class="recent-value">{{latestDietText}}</text>
+        </view>
+        <view class="recent-row">
+          <text class="recent-label">作息 {{latestSleepDate}}</text>
+          <text class="recent-value">{{latestSleepText}}</text>
+        </view>
+      </view>
+      <view class="card__desc">拖动查看单点数据</view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showDietInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="onCancelDiet"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">饮食记录（{{todayDate}}）</text>
+    <view class="overlay-row">
+      <text class="overlay-label">饮食标签</text>
+      <picker mode="selector" range="{{dietTagOptions}}" value="{{dietTagIndex}}" bindchange="onDietTagChange">
+        <view class="overlay-picker">{{dietTag || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">饮水量(ml)</text>
+      <input class="overlay-input" type="number" placeholder="例如：1500" bindinput="onDietWaterInput" value="{{dietDrinkWater}}" />
+    </view>
+    <view class="overlay-row overlay-switch-row">
+      <text class="overlay-label">是否吃夜宵</text>
+      <switch checked="{{dietHasSnack}}" bindchange="onDietSnackChange" />
+    </view>
+    <view class="overlay-row overlay-switch-row">
+      <text class="overlay-label">含糖饮料/酒</text>
+      <switch checked="{{dietHasSugary}}" bindchange="onDietSugaryChange" />
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">备注</text>
+      <input class="overlay-input" type="text" maxlength="50" placeholder="可选" bindinput="onDietRemarkInput" value="{{dietRemark}}" />
+    </view>
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="onCancelDiet">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onConfirmDiet">保存</button>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showWaterInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="closeWaterInput"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">饮水提醒设置</text>
+    <view class="overlay-row">
+      <text class="overlay-label">每日目标(ml)</text>
+      <input class="overlay-input" type="number" placeholder="500~6000" bindinput="onWaterGoalInput" value="{{waterGoalMl}}" />
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">身高(cm)</text>
+      <input class="overlay-input" type="digit" placeholder="例如 170" bindinput="onWaterHeightInput" value="{{waterHeightCm}}" />
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">体重(kg)</text>
+      <input class="overlay-input" type="digit" placeholder="例如 65" bindinput="onWaterWeightInput" value="{{waterWeightKg}}" />
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">活动量</text>
+      <picker mode="selector" range="{{waterActivityOptions}}" value="{{waterActivityIndex}}" bindchange="onWaterActivityChange">
+        <view class="overlay-picker">{{waterActivityOptions[waterActivityIndex]}}</view>
+      </picker>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">智能推荐目标</text>
+      <view class="overlay-value">{{recommendedWaterGoal}}ml</view>
+      <button class="overlay-mini-btn" bindtap="useRecommendedWaterGoal">使用推荐</button>
+    </view>
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="closeWaterInput">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onSaveWaterSettings">保存</button>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showSleepInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="onCancelSleep"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">作息记录（{{todayDate}}）</text>
+    <view class="overlay-row">
+      <text class="overlay-label">入睡时间</text>
+      <picker mode="time" value="{{sleepTime}}" bindchange="onSleepTimeChange">
+        <view class="overlay-picker">{{sleepTime || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">起床时间</text>
+      <picker mode="time" value="{{wakeTime}}" bindchange="onWakeTimeChange">
+        <view class="overlay-picker">{{wakeTime || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">睡眠时长(小时)</text>
+      <view class="overlay-value">{{sleepDuration || '--'}}</view>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">自动评价</text>
+      <view class="overlay-value">{{sleepQualityText}}（{{sleepQuality || 0}}分）</view>
+    </view>
+    <view class="overlay-row overlay-switch-row">
+      <text class="overlay-label">是否熬夜</text>
+      <switch checked="{{isStayUp}}" bindchange="onStayUpChange" />
+    </view>
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="onCancelSleep">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onConfirmSleep">保存</button>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showSleepSettingInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="closeSleepSettingInput"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">作息提醒设置</text>
+    <view class="overlay-row">
+      <text class="overlay-label">建议入睡时间</text>
+      <picker mode="time" value="{{sleepPlanBedtime}}" bindchange="onPlanBedtimeChange">
+        <view class="overlay-picker">{{sleepPlanBedtime || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="overlay-row">
+      <text class="overlay-label">建议起床时间</text>
+      <picker mode="time" value="{{sleepPlanWakeTime}}" bindchange="onPlanWakeTimeChange">
+        <view class="overlay-picker">{{sleepPlanWakeTime || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="closeSleepSettingInput">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onSaveSleepSetting">保存</button>
+    </view>
+  </view>
+</view>

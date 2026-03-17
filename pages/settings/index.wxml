@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="topbar">
+    <view class="back-btn" bindtap="onBack">‹</view>
+    <text class="topbar-title">更多设置</text>
+    <view class="topbar-right"></view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">意见反馈</view>
+    <view class="section-desc">推荐优先使用小程序官方客服会话，无需额外插件。</view>
+    <button class="btn btn-light" open-type="contact">联系在线客服</button>
+    <textarea class="feedback-input" maxlength="300" placeholder="也可以在这里输入反馈内容（最多300字）" value="{{feedbackText}}" bindinput="onFeedbackInput"></textarea>
+    <button class="btn btn-primary" bindtap="onSubmitFeedback">提交反馈</button>
+  </view>
+
+  <view class="section">
+    <view class="section-title">帮助</view>
+    <view class="help-list">
+      <view wx:for="{{helpItems}}" wx:key="index" class="help-item">
+        <text class="help-index">{{index + 1}}.</text>
+        <text class="help-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section danger-section">
+    <view class="section-title">清除数据</view>
+    <view class="section-desc">将清除你在本小程序中的业务数据，登录状态会保留。</view>
+    <button class="btn btn-danger" bindtap="onClearData">清除我的数据</button>
+  </view>
+</view>

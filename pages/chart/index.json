@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "折线图",
+  "renderer": "webview",
+  "usingComponents": {}
+}

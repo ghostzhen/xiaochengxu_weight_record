@@ -1,0 +1,19 @@
+.page {
+  padding: 80rpx 40rpx 40rpx;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 20rpx;
+}
+
+.placeholder {
+  color: #888;
+  font-size: 28rpx;
+}

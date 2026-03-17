@@ -1,0 +1,85 @@
+<view class="page">
+  <view class="header">
+    <text class="title">个人中心</text>
+  </view>
+
+  <button class="profile-card" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+    <image class="avatar" src="{{avatarPreview}}"></image>
+    <view class="profile-meta">
+      <text class="nickname">{{nickname || '用户昵称'}}</text>
+      <text class="profile-sub">已坚持记录 {{streakDays}} 天</text>
+      <view class="avatar-action">
+        <text class="avatar-action-icon">📷</text>
+        <text class="avatar-action-text">{{avatarPreview ? '更换头像' : '上传头像'}}</text>
+      </view>
+    </view>
+  </button>
+
+  <view class="data-cards">
+    <view class="data-card">
+      <text class="data-label">本周称重</text>
+      <text class="data-value">{{weekWeighCount}}次</text>
+    </view>
+    <view class="data-card">
+      <text class="data-label">当前体重</text>
+      <text class="data-value">{{currentWeight}}</text>
+    </view>
+  </view>
+
+  <view class="feature-list">
+    <view
+      wx:for="{{featureItems}}"
+      wx:key="key"
+      class="feature-item"
+      hover-class="feature-item-hover"
+      data-key="{{item.key}}"
+      bindtap="onFeatureTap"
+    >
+      <view class="feature-left">
+        <text class="feature-icon">{{item.icon}}</text>
+        <view class="feature-text">
+          <text class="feature-name">{{item.name}}</text>
+          <text class="feature-desc">{{item.desc}}</text>
+        </view>
+      </view>
+      <view class="feature-right">
+        <view wx:if="{{item.dot}}" class="feature-dot"></view>
+        <text class="feature-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showProfileEditor}}" class="editor-mask" catchtouchmove="noop" bindtap="onCloseEditor">
+    <view class="editor-panel" catchtap="noop">
+      <text class="editor-title">个人信息</text>
+      <view class="editor-row">
+        <text class="editor-label">昵称</text>
+        <input class="editor-input" maxlength="12" value="{{editNickname}}" data-field="editNickname" bindinput="onEditInput" placeholder="请输入昵称" />
+      </view>
+      <view class="editor-row">
+        <text class="editor-label">身高(cm)</text>
+        <input class="editor-input" type="digit" value="{{editHeightCm}}" data-field="editHeightCm" bindinput="onEditInput" placeholder="例如 170" />
+      </view>
+      <view class="editor-row">
+        <text class="editor-label">目标体重(kg)</text>
+        <input class="editor-input" type="digit" value="{{editTargetWeight}}" data-field="editTargetWeight" bindinput="onEditInput" placeholder="例如 60.0" />
+      </view>
+      <view class="editor-row">
+        <text class="editor-label">性别</text>
+        <picker class="editor-picker" mode="selector" range="{{genderOptions}}" value="{{editGenderIndex}}" bindchange="onGenderChange">
+          <text class="editor-picker-text">{{genderOptions[editGenderIndex]}}</text>
+        </picker>
+      </view>
+      <view class="editor-row">
+        <text class="editor-label">出生日期</text>
+        <picker class="editor-picker" mode="date" value="{{editBirthDate}}" end="{{maxBirthDate}}" bindchange="onBirthDateChange">
+          <text class="editor-picker-text">{{editBirthDate || '请选择日期'}}</text>
+        </picker>
+      </view>
+      <view class="editor-actions">
+        <button class="editor-btn editor-cancel" bindtap="onCloseEditor">取消</button>
+        <button class="editor-btn editor-save" bindtap="onSaveProfile">保存</button>
+      </view>
+    </view>
+  </view>
+</view>
