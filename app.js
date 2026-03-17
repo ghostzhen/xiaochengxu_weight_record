@@ -5,7 +5,6 @@ App({
   globalData: {
     openid: ''
   },
-<<<<<<< HEAD
   _autoLoginPromise: null,
   randomUserSuffix: function (len) {
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'
@@ -66,13 +65,10 @@ App({
     })
     return this._autoLoginPromise
   },
-=======
->>>>>>> c62730a8507d822b8a48bb08f7a1848e9a75d228
   onLaunch(){
     wx.cloud.init({
       env:"cloud1-9ghbta8g727e619f"
     })
-<<<<<<< HEAD
     wx.removeStorageSync('afterLoginTab')
     var openid = wx.getStorageSync('openid') || ''
     var registered = !!wx.getStorageSync('userRegistered')
@@ -80,11 +76,5 @@ App({
     if (openid && !registered) wx.setStorageSync('userRegistered', true)
     if (!openid && registered) wx.setStorageSync('userRegistered', false)
     this.ensureAutoLogin()
-=======
-    wx.setStorageSync('userRegistered', false)
-    wx.removeStorageSync('afterLoginTab')
-    wx.removeStorageSync('openid')
-    this.globalData.openid = ''
->>>>>>> c62730a8507d822b8a48bb08f7a1848e9a75d228
   }
 })

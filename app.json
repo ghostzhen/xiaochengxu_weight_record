@@ -4,12 +4,8 @@
     "pages/bmi/index",
     "pages/chart/index",
     "pages/buddy/index",
-<<<<<<< HEAD
     "pages/profile/index",
     "pages/settings/index"
-=======
-    "pages/profile/index"
->>>>>>> c62730a8507d822b8a48bb08f7a1848e9a75d228
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -23,11 +19,7 @@
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
       { "pagePath": "pages/chart/index", "text": "折线图" },
-<<<<<<< HEAD
       { "pagePath": "pages/buddy/index", "text": "排行榜" },
-=======
-      { "pagePath": "pages/buddy/index", "text": "搭子" },
->>>>>>> c62730a8507d822b8a48bb08f7a1848e9a75d228
       { "pagePath": "pages/profile/index", "text": "个人" }
     ]
   },

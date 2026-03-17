@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "libVersion": "3.14.3",
   "projectname": "%E4%BD%93%E9%87%8D%E8%AE%B0%E5%BD%95",
@@ -19,19 +18,4 @@
     "ignoreDevUnusedFiles": true,
     "bigPackageSizeSupport": false
   }
-=======
-{
-  "libVersion": "3.14.3",
-  "projectname": "%E4%BD%93%E9%87%8D%E8%AE%B0%E5%BD%95",
-  "setting": {
-    "urlCheck": true,
-    "coverView": true,
-    "lazyloadPlaceholderEnable": false,
-    "skylineRenderEnable": false,
-    "preloadBackgroundData": false,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "compileHotReLoad": true
-  }
->>>>>>> c62730a8507d822b8a48bb08f7a1848e9a75d228
 }
