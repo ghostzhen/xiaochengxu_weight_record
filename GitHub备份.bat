@@ -1,32 +1,32 @@
 @echo off
+chcp 65001 >nul 2>&1
 setlocal enabledelayedexpansion
 
-:: ========== 仅需确认这里 ==========
-set "REPO_URL=https://github.com/ghostzhen/xiaochengxu_weight_record.git"
-:: =================================
+:: ========== 无需修改（配置文件已适配 443 端口） ==========
+set "REPO_URL=git@github.com:ghostzhen/xiaochengxu_weight_record.git"
+:: =======================================================
 
-:: 自动检测本地分支（兼容 main/master）
-for /f "tokens=*" %%i in ('git symbolic-ref --short HEAD 2^>nul') do set "LOCAL_BRANCH=%%i"
-if "!LOCAL_BRANCH!"=="" set "LOCAL_BRANCH=main"
+:: 数字时间避免乱码
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
+set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
+set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
+set "COMMIT_MSG=手动更新代码: %YYYY%-%MM%-%DD% %HH%:%Min%:%Sec%"
+set "LOCAL_BRANCH=main"
 
-set "COMMIT_MSG=手动更新代码: %date% %time%"
+echo 🔍 检查 Git 环境（适配 443 端口）...
 
-echo 🔍 检查并修复 Git 环境...
-
-:: 修复：删除异常的 pre-push 钩子文件（核心解决本次报错）
+:: 修复钩子问题
 if exist .git\hooks\pre-push (
-    echo 🧹 清理异常的 pre-push 钩子文件...
+    echo 🧹 清理异常的 pre-push 钩子...
     del .git\hooks\pre-push
 )
-:: 禁用所有推送钩子（彻底避免钩子问题）
 git config --local core.hooksPath NUL 2>nul || true
 
-:: 初始化仓库（首次用）
+:: 初始化仓库
 if not exist .git (
-    echo 📦 初始化本地 Git 仓库...
+    echo 📦 初始化本地仓库...
     git init
-    :: 强制创建初始提交（解决空仓库问题）
-    git commit --allow-empty -m "初始化仓库"
+    git commit --allow-empty -m "Initial commit: %YYYY%-%MM%-%DD% %HH%:%Min%:%Sec%"
 )
 
 :: 配置远程仓库
@@ -37,26 +37,25 @@ if errorlevel 1 (
     git remote set-url origin %REPO_URL%
 )
 
-:: 拉取最新代码（避免冲突）
-echo ⬇️  拉取远程最新代码...
-git pull origin !LOCAL_BRANCH! --allow-unrelated-histories || echo ⚠️  无远程分支，跳过拉取
+:: 拉取代码
+echo ⬇️  Pull latest code...
+git pull origin !LOCAL_BRANCH! --allow-unrelated-histories || echo ⚠️  No remote branch, skip pull
 
-:: 确保有文件可提交（创建空文件兜底）
+:: 创建兜底文件
 dir /b /a-d | findstr /r "^" >nul 2>&1
 if errorlevel 1 (
-    echo 📄 创建兜底文件（避免空仓库）...
-    echo # 项目初始化 > README.md
+    echo 📄 Create README file...
+    echo # Weight Record Mini Program > README.md
 )
 
-:: 提交代码（允许空提交）
-echo 📤 提交代码到本地仓库...
+:: 提交推送
+echo 📤 Commit code...
 git add .
-git commit -m "%COMMIT_MSG%" || git commit --allow-empty -m "%COMMIT_MSG%"
+git commit -m "!COMMIT_MSG!" || git commit --allow-empty -m "!COMMIT_MSG!"
 
-:: 推送到 GitHub（强制推送初始分支，禁用钩子）
-echo 🚀 推送到 GitHub (!LOCAL_BRANCH! 分支)...
+echo 🚀 Push code (port 443)...
 git push -u origin !LOCAL_BRANCH! --force-with-lease --no-verify
 
 echo.
-echo ✅ 上传完成！
+echo ✅ SSH (port 443) upload completed!
 pause
