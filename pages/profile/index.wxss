@@ -1,0 +1,291 @@
+/* 页面整体背景与外边距 */
+.page {
+  min-height: 100vh;
+  padding: 64rpx 30rpx 48rpx;
+  background: linear-gradient(180deg, #e8f5ff 0%, #f9fdff 48%, #ffffff 100%);
+}
+
+/* 顶部标题区域 */
+.header {
+  margin-bottom: 24rpx;
+}
+
+.title {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: #0e2a6d;
+  display: block;
+}
+
+/* 头像昵称卡片容器 */
+.profile-card {
+  width: 100% !important;
+  max-width: none;
+  min-width: 0;
+  min-height: 108rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2rpx solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6rpx 18rpx rgba(21, 71, 165, 0.07);
+  margin: 0 0 14rpx;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 16rpx 20rpx;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.profile-card::after {
+  border: none;
+}
+
+/* 头像显示 */
+.avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 64rpx;
+  background: #f0f4ff;
+  border: 4rpx solid #fff;
+  flex-shrink: 0;
+}
+
+/* 昵称与连续打卡文案区域 */
+.profile-meta {
+  margin-left: 24rpx;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* 昵称主标题 */
+.nickname {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: #0e2a6d;
+  line-height: 1.2;
+}
+
+/* 连续记录天数文案 */
+.profile-sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #667aa8;
+}
+
+/* 更换头像操作区域 */
+.avatar-action {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.avatar-action-icon {
+  font-size: 22rpx;
+}
+
+.avatar-action-text {
+  margin-left: 8rpx;
+  font-size: 22rpx;
+  color: #3dc466;
+  font-weight: 500;
+}
+
+/* 顶部两张数据卡片容器 */
+.data-cards {
+  display: flex;
+  gap: 18rpx;
+  margin-bottom: 22rpx;
+}
+
+/* 数据卡片（本周称重、当前体重） */
+.data-card {
+  flex: 1;
+  min-height: 160rpx;
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, 0.94);
+  border: 2rpx solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8rpx 24rpx rgba(17, 72, 166, 0.08);
+  padding: 22rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.data-label {
+  font-size: 28rpx;
+  color: #17336d;
+}
+
+.data-value {
+  margin-top: 12rpx;
+  font-size: 54rpx;
+  line-height: 1;
+  font-weight: 700;
+  color: #0c2a72;
+}
+
+/* 功能列表区域 */
+.feature-list {
+  background: transparent;
+}
+
+/* 功能项卡片（个人信息/称重/饮水/作息/更多） */
+.feature-item {
+  min-height: 108rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2rpx solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6rpx 18rpx rgba(21, 71, 165, 0.07);
+  margin-bottom: 14rpx;
+  padding: 16rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feature-item-hover {
+  background: #f2f8ff;
+}
+
+/* 功能项左侧图标与文字 */
+.feature-left {
+  display: flex;
+  align-items: center;
+}
+
+.feature-icon {
+  width: 56rpx;
+  text-align: center;
+  font-size: 34rpx;
+}
+
+.feature-text {
+  margin-left: 14rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-name {
+  font-size: 34rpx;
+  color: #0f2f6f;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.feature-desc {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8295bc;
+}
+
+/* 功能项右侧箭头与红点 */
+.feature-right {
+  display: flex;
+  align-items: center;
+}
+
+.feature-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #ff4d4f;
+  margin-right: 12rpx;
+}
+
+.feature-arrow {
+  font-size: 42rpx;
+  color: #8ea0c1;
+}
+
+/* 个人信息编辑弹层遮罩 */
+.editor-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: flex-end;
+  z-index: 50;
+}
+
+/* 个人信息编辑底部面板 */
+.editor-panel {
+  width: 100%;
+  background: #fff;
+  border-top-left-radius: 28rpx;
+  border-top-right-radius: 28rpx;
+  padding: 30rpx 28rpx calc(30rpx + env(safe-area-inset-bottom));
+}
+
+.editor-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #123170;
+  display: block;
+  margin-bottom: 18rpx;
+}
+
+/* 编辑表单行与字段 */
+.editor-row {
+  min-height: 92rpx;
+  border-bottom: 1rpx solid #eef2fb;
+  display: flex;
+  align-items: center;
+}
+
+.editor-label {
+  width: 180rpx;
+  font-size: 28rpx;
+  color: #4e6189;
+}
+
+.editor-input {
+  flex: 1;
+  height: 72rpx;
+  font-size: 28rpx;
+  color: #1c3468;
+}
+
+.editor-picker {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+}
+
+.editor-picker-text {
+  font-size: 28rpx;
+  color: #1c3468;
+}
+
+/* 编辑弹层底部按钮区 */
+.editor-actions {
+  margin-top: 24rpx;
+  display: flex;
+  gap: 18rpx;
+}
+
+.editor-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 16rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+}
+
+.editor-cancel {
+  background: #f4f6fb;
+  color: #4e6189;
+}
+
+.editor-save {
+  background: #3dc466;
+  color: #fff;
+}

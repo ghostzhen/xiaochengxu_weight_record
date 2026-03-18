@@ -1,0 +1,154 @@
+<!-- 体重记录首页：日历 + 体重数据 + 习惯入口 + 悬浮记录 -->
+<view class="page">
+  <scroll-view class="scrollarea" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 日历区 -->
+    <view class="calendar-section">
+      <view class="cal-header">
+        <view class="cal-month">
+          <view class="cal-month-btn" bindtap="onPrevMonth">‹</view>
+          <text class="cal-title">{{ monthYear }}</text>
+          <view class="cal-month-btn" bindtap="onNextMonth">›</view>
+        </view>
+      </view>
+      <view class="week-row">
+        <text class="week-cell">日</text>
+        <text class="week-cell">一</text>
+        <text class="week-cell">二</text>
+        <text class="week-cell">三</text>
+        <text class="week-cell">四</text>
+        <text class="week-cell">五</text>
+        <text class="week-cell">六</text>
+      </view>
+      <view class="day-row" wx:for="{{calendarRows}}" wx:key="*this">
+        <view
+          class="day-cell {{selectedDay === d ? 'day-cell--selected' : ''}}"
+          wx:for="{{item}}"
+          wx:for-item="d"
+          wx:key="*this"
+          data-day="{{d}}"
+          bindtap="onSelectDay"
+        >
+          <text>{{d}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 体重数据区 -->
+    <view class="data-section">
+      <text class="section-title">体重数据</text>
+
+      <view class="checkin-card">
+        <view class="checkin-left">
+          <text class="checkin-title">最近7天打卡</text>
+          <text class="checkin-days">{{ streakDays }} / 7 天</text>
+        </view>
+        <text class="checkin-hint">{{ streakHint }}</text>
+      </view>
+
+      <!-- 目标进度 -->
+      <view class="goal-block">
+        <view class="goal-row">
+          <text class="goal-label">目标体重</text>
+          <view class="goal-right">
+            <text class="goal-value">{{ targetWeight }} {{ unitLabel }}</text>
+            <text class="goal-set" bindtap="onSetTargetWeight">设置</text>
+          </view>
+        </view>
+        <view class="progress-track">
+          <view class="progress-fill" style="width: {{ goalPercent }}%; background: {{ goalColor }}"></view>
+        </view>
+        <text class="goal-sub">{{ goalSubText }}</text>
+        <view class="smart-hint" bindtap="onSmartReport">
+          <text class="hint-icon">✦</text>
+          <text>智能周报</text>
+        </view>
+      </view>
+
+      <!-- 历史对比卡片 -->
+      <view class="history-card">
+        <text>较初始 {{ historyVsInitial }}</text>
+        <text>较上月 {{ historyVsLastMonth }}</text>
+      </view>
+
+      <!-- BMI入口 -->
+      <view class="body-entry" bindtap="onBodyData">
+        <text>BMI 计算</text>
+        <text class="entry-arrow">›</text>
+      </view>
+
+      <view class="selected-card">
+        <text>选中日期 {{ selectedDate }}</text>
+        <text>{{ selectedWeight }} {{ unitLabel }}</text>
+      </view>
+
+      <!-- 最新体重 -->
+      <view class="data-row">
+        <view class="data-row-left">
+          <text class="data-label">最新体重</text>
+          <view class="data-value-row">
+            <text class="data-num">{{ latestWeight }}</text>
+            <text class="data-unit">{{ unitLabel }}</text>
+          </view>
+          <view class="unit-switch">
+            <text class="unit-opt {{ unit === 'kg' ? 'active' : '' }}" data-unit="kg" bindtap="onSwitchUnit">公斤</text>
+            <text class="unit-div">|</text>
+            <text class="unit-opt {{ unit === 'jin' ? 'active' : '' }}" data-unit="jin" bindtap="onSwitchUnit">斤</text>
+          </view>
+          <view class="status-tag">
+            <text class="status-icon">✓</text>
+            <text>{{ statusLabel }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 初始体重 -->
+      <view class="data-row">
+        <view class="data-row-left">
+          <text class="data-label">初始体重</text>
+          <view class="data-value-row">
+            <text class="data-num">{{ initialWeight }}</text>
+            <text class="data-unit">{{ unitLabel }}</text>
+          </view>
+        </view>
+        <view class="data-row-right">
+          <text class="data-tag">开始记录</text>
+          <text class="data-date">{{ initialDate }}</text>
+        </view>
+      </view>
+
+      <!-- 悬浮按钮占位 -->
+      <view class="fab-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 悬浮记录按钮 -->
+  <view class="fab" bindtap="onRecordWeight">
+    <text class="fab-icon">+</text>
+  </view>
+</view>
+
+<!-- 体重输入弹层 -->
+<view wx:if="{{showWeightInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="onCancelWeight"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">输入体重（20~300，最多 1 位小数）</text>
+    <input class="overlay-input" type="digit" placeholder="例如：63.5" bindinput="onWeightInput" value="{{inputWeight}}" />
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="onCancelWeight">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onConfirmWeight">保存</button>
+    </view>
+  </view>
+</view>
+
+<!-- 目标体重弹层 -->
+<view wx:if="{{showTargetInput}}" class="overlay">
+  <view class="overlay-mask" bindtap="onCancelTarget"></view>
+  <view class="overlay-panel">
+    <text class="overlay-title">设置目标体重（20~300，最多 1 位小数）</text>
+    <input class="overlay-input" type="digit" placeholder="例如：65.0" bindinput="onTargetInput" value="{{inputTargetWeight}}" />
+    <view class="overlay-actions">
+      <button class="weui-btn" bindtap="onCancelTarget">取消</button>
+      <button class="weui-btn weui-btn_primary" bindtap="onConfirmTarget">保存</button>
+    </view>
+  </view>
+</view>

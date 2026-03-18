@@ -1,0 +1,58 @@
+<view class="page">
+  <view class="topbar">
+    <view class="back" bindtap="onBack">‹</view>
+    <text class="topbar-title">BMI 计算</text>
+    <view class="topbar-right"></view>
+  </view>
+
+  <view class="card">
+    <view class="row">
+      <text class="label">身高（cm）</text>
+      <input class="input" type="digit" placeholder="例如：170（80~250）" value="{{heightCm}}" bindinput="onHeightInput" bindblur="onHeightBlur" />
+    </view>
+    <view class="row">
+      <view class="label-col">
+        <text class="label">体重（kg）</text>
+        <text wx:if="{{weightFromDate}}" class="hint">取自最新记录：{{weightFromDate}}</text>
+      </view>
+      <input class="input" type="digit" placeholder="例如：65.5（20~300）" value="{{weightKg}}" bindinput="onWeightInput" bindblur="onWeightBlur" />
+    </view>
+  </view>
+
+  <view class="result-card">
+    <view class="result-row">
+      <text class="result-label">BMI</text>
+      <text class="result-value">{{bmiText}}</text>
+    </view>
+    <view class="result-row">
+      <text class="result-label">评级</text>
+      <text class="result-badge {{levelClass}}">{{levelText}}</text>
+    </view>
+  </view>
+
+  <view class="table-card">
+    <text class="table-title">BMI 评级表（成人）</text>
+    <view class="table">
+      <view class="table-row">
+        <text class="th">范围</text>
+        <text class="th">评级</text>
+      </view>
+      <view class="table-row">
+        <text class="td" decode="true">&lt; 18.5</text>
+        <text class="td">偏瘦</text>
+      </view>
+      <view class="table-row">
+        <text class="td">18.5 ~ 23.9</text>
+        <text class="td">正常</text>
+      </view>
+      <view class="table-row">
+        <text class="td">24.0 ~ 27.9</text>
+        <text class="td">偏胖</text>
+      </view>
+      <view class="table-row">
+        <text class="td">≥ 28.0</text>
+        <text class="td">肥胖</text>
+      </view>
+    </view>
+  </view>
+</view>

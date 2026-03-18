@@ -4,7 +4,8 @@
     "pages/bmi/index",
     "pages/chart/index",
     "pages/buddy/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/settings/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -18,7 +19,7 @@
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
       { "pagePath": "pages/chart/index", "text": "折线图" },
-      { "pagePath": "pages/buddy/index", "text": "搭子" },
+      { "pagePath": "pages/buddy/index", "text": "排行榜" },
       { "pagePath": "pages/profile/index", "text": "个人" }
     ]
   },

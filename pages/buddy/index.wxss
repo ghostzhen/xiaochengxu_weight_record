@@ -1,0 +1,154 @@
+.page {
+  padding: 30rpx;
+  min-height: 100vh;
+  background: #f6f8fc;
+}
+
+.title {
+  display: block;
+  font-size: 40rpx;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #17336d;
+}
+
+.sub {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #6b7ea8;
+}
+
+.header-card,
+.my-card,
+.list-card {
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 22rpx;
+  box-sizing: border-box;
+}
+
+.my-card,
+.list-card {
+  margin-top: 18rpx;
+}
+
+.meta-row {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 22rpx;
+  color: #8a9abd;
+}
+
+.my-title {
+  font-size: 24rpx;
+  color: #7a8fb6;
+}
+
+.my-row {
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+}
+
+.my-rank {
+  font-size: 40rpx;
+  color: #2e7dff;
+  font-weight: 700;
+}
+
+.my-name {
+  margin-left: 16rpx;
+  font-size: 30rpx;
+  color: #102a5e;
+  flex: 1;
+}
+
+.my-streak {
+  font-size: 30rpx;
+  color: #3dc466;
+  font-weight: 700;
+}
+
+.state-text {
+  margin-top: 22rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #7f8aa5;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #edf1f8;
+}
+
+.item:last-child {
+  border-bottom: 0;
+}
+
+.rank-col {
+  width: 64rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #7b8cab;
+  font-weight: 700;
+}
+
+.rank-1 {
+  color: #ff8a00;
+}
+
+.rank-2 {
+  color: #6f7f99;
+}
+
+.rank-3 {
+  color: #ca7a40;
+}
+
+.avatar {
+  width: 66rpx;
+  height: 66rpx;
+  border-radius: 33rpx;
+  background: #eef3ff;
+}
+
+.avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e7dff;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.info {
+  margin-left: 14rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  display: block;
+  font-size: 28rpx;
+  color: #1a335f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8393b1;
+}
+
+.days {
+  font-size: 30rpx;
+  color: #2e7dff;
+  font-weight: 700;
+}

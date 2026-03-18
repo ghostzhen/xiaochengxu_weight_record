@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="header-card">
+    <text class="title">连续打卡排行榜</text>
+    <text class="sub">按连续记录体重天数排序</text>
+    <view class="meta-row">
+      <text>参与人数 {{totalUsers}}</text>
+      <text wx:if="{{updatedAtText}}">更新于 {{updatedAtText}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{myItem}}" class="my-card">
+    <text class="my-title">我的排名</text>
+    <view class="my-row">
+      <text class="my-rank">#{{myRank}}</text>
+      <text class="my-name">{{myItem.nickname}}</text>
+      <text class="my-streak">{{myItem.streakDays}} 天</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="state-text">加载中...</view>
+  <view wx:elif="{{errorText}}" class="state-text">{{errorText}}</view>
+  <view wx:elif="{{!rankList.length}}" class="state-text">暂无排行数据</view>
+
+  <view wx:else class="list-card">
+    <view wx:for="{{rankList}}" wx:key="openid" class="item">
+      <view class="rank-col rank-{{item.rank <= 3 ? item.rank : 0}}">
+        <text>{{item.rank}}</text>
+      </view>
+      <image wx:if="{{item.avatar}}" class="avatar" mode="aspectFill" src="{{item.avatar}}"></image>
+      <view wx:else class="avatar avatar-fallback">{{item.avatarText}}</view>
+      <view class="info">
+        <text class="name">{{item.nickname}}</text>
+        <text class="date">最近打卡 {{item.latestDate}}</text>
+      </view>
+      <text class="days">{{item.streakDays}} 天</text>
+    </view>
+  </view>
+</view>
